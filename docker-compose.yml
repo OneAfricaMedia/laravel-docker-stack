@@ -1,0 +1,58 @@
+# Application
+app:
+  image: rimucore/lara-php:7.2-fpm-alpine
+  container_name: app
+  environment:
+    APP_ENV: local
+    DB_HOST: db
+    DB_USERNAME: homestead
+    DB_PASSWORD: secret
+    DB_DATABASE: laravel
+  volumes:
+  - .:/var/www/app
+  depends_on:
+  - db
+  networks:
+  - default
+
+# Database
+db:
+  image: mysql:5.7
+  ports:
+  - "33061:3306"
+  environment:
+    MYSQL_USER: homestead
+    MYSQL_PASSWORD: secret
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_DATABASE: laravel
+  volumes:
+  - db_data:/var/lib/mysql
+  networks:
+  - default
+
+# Web Server
+nginx:
+  image: rimucore/lara-nginx:1.15-alpine
+  container_name: nginx
+  ports:
+  - "9090:80"
+  environment:
+  - "NGINX_PORT=80"
+  - "NGINX_HOST=laravel.test"
+  working_dir: /var/www/app
+  volumes:
+  - .:/var/www/app
+  depends_on:
+  - app
+  networks:
+  - default
+
+# Networks
+networks:
+  default:
+    driver: bridge
+
+# Volumes / Storage
+volumes:
+  db_data:
+    driver: local
