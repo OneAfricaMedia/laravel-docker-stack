@@ -23,9 +23,14 @@ This repository provides you a development environment without requiring you to 
 ```
 $ docker-compose up
 ```
-4. To view running application in browser open [`http://localhost:9090/`](http://localhost:9090/) 
+4. To install composer dependencies and node dependencies use commands respectively:
+```
+$ docker-compose exec app composer install
+$ docker-compose exec app yarn install
+```
+5. To view running application in browser open [`http://localhost:9090/`](http://localhost:9090/) 
 or you can map host `laravel.test` to `127.0.0.1` on your hosts file, save file then open [`http://laravel.test:9090/`](http://laravel.test:9090/)
-5. To bring running application container down use command within root directory of project:
+6. To bring running application container down use command within root directory of project:
 ```
 $ docker-compose down
 ```
